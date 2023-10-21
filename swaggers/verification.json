@@ -9,7 +9,7 @@
     "application/json"
   ],
   "info": {
-    "version": "1.0.10",
+    "version": "1.0.11",
     "title": "Verification API",
     "description": "Powered By Boodskap IoT",
     "termsOfService": "https://boodskap.io/terms-conditions",
@@ -255,7 +255,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/BaseRes"
+              "$ref": "#/definitions/ForgotPasswordRes"
             }
           }
         }
@@ -563,6 +563,24 @@
           "type": "string"
         },
         "template": {
+          "type": "string"
+        }
+      }
+    },
+    "ForgotPasswordRes": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseRes"
+        },
+        {
+          "type": "object"
+        }
+      ],
+      "required": [
+        "pinToken"
+      ],
+      "properties": {
+        "pinToken": {
           "type": "string"
         }
       }

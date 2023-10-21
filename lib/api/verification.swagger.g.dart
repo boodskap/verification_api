@@ -178,6 +178,20 @@ Map<String, dynamic> _$ForgotPasswordToJson(ForgotPassword instance) =>
       'template': instance.template,
     };
 
+ForgotPasswordRes _$ForgotPasswordResFromJson(Map<String, dynamic> json) =>
+    ForgotPasswordRes(
+      pinToken: json['pinToken'] as String? ?? '',
+      ok: json['ok'] as bool,
+      msg: json['msg'] as String? ?? '',
+    );
+
+Map<String, dynamic> _$ForgotPasswordResToJson(ForgotPasswordRes instance) =>
+    <String, dynamic>{
+      'pinToken': instance.pinToken,
+      'ok': instance.ok,
+      'msg': instance.msg,
+    };
+
 ChangePassword _$ChangePasswordFromJson(Map<String, dynamic> json) =>
     ChangePassword(
       userId: json['userId'] as String? ?? '',

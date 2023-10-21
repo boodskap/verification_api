@@ -1,3 +1,6 @@
+## 1.0.11
+* Optimized swagger objects to have generate better dart objects
+
 ## 1.0.4
 * Fixed invalid platform user type
 

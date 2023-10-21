@@ -159,11 +159,12 @@ abstract class Verification extends ChopperService {
   ///Forgot password
   ///@param dkey
   ///@param body
-  Future<chopper.Response<BaseRes>> forgotPassword({
+  Future<chopper.Response<ForgotPasswordRes>> forgotPassword({
     String? dkey,
     required ForgotPassword? body,
   }) {
-    generatedMapping.putIfAbsent(BaseRes, () => BaseRes.fromJsonFactory);
+    generatedMapping.putIfAbsent(
+        ForgotPasswordRes, () => ForgotPasswordRes.fromJsonFactory);
 
     return _forgotPassword(dkey: dkey?.toString(), body: body);
   }
@@ -172,7 +173,7 @@ abstract class Verification extends ChopperService {
   ///@param dkey
   ///@param body
   @Post(path: '/post/forgot')
-  Future<chopper.Response<BaseRes>> _forgotPassword({
+  Future<chopper.Response<ForgotPasswordRes>> _forgotPassword({
     @Header('dkey') String? dkey,
     @Body() required ForgotPassword? body,
   });
@@ -1035,6 +1036,69 @@ extension $ForgotPasswordExtension on ForgotPassword {
         userId: (userId != null ? userId.value : this.userId),
         subject: (subject != null ? subject.value : this.subject),
         template: (template != null ? template.value : this.template));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ForgotPasswordRes {
+  const ForgotPasswordRes({
+    required this.pinToken,
+    required this.ok,
+    required this.msg,
+  });
+
+  factory ForgotPasswordRes.fromJson(Map<String, dynamic> json) =>
+      _$ForgotPasswordResFromJson(json);
+
+  static const toJsonFactory = _$ForgotPasswordResToJson;
+  Map<String, dynamic> toJson() => _$ForgotPasswordResToJson(this);
+
+  @JsonKey(name: 'pinToken', includeIfNull: false, defaultValue: '')
+  final String pinToken;
+  @JsonKey(name: 'ok', includeIfNull: false)
+  final bool ok;
+  @JsonKey(name: 'msg', includeIfNull: false, defaultValue: '')
+  final String msg;
+  static const fromJsonFactory = _$ForgotPasswordResFromJson;
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is ForgotPasswordRes &&
+            (identical(other.pinToken, pinToken) ||
+                const DeepCollectionEquality()
+                    .equals(other.pinToken, pinToken)) &&
+            (identical(other.ok, ok) ||
+                const DeepCollectionEquality().equals(other.ok, ok)) &&
+            (identical(other.msg, msg) ||
+                const DeepCollectionEquality().equals(other.msg, msg)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(pinToken) ^
+      const DeepCollectionEquality().hash(ok) ^
+      const DeepCollectionEquality().hash(msg) ^
+      runtimeType.hashCode;
+}
+
+extension $ForgotPasswordResExtension on ForgotPasswordRes {
+  ForgotPasswordRes copyWith({String? pinToken, bool? ok, String? msg}) {
+    return ForgotPasswordRes(
+        pinToken: pinToken ?? this.pinToken,
+        ok: ok ?? this.ok,
+        msg: msg ?? this.msg);
+  }
+
+  ForgotPasswordRes copyWithWrapped(
+      {Wrapped<String>? pinToken, Wrapped<bool>? ok, Wrapped<String>? msg}) {
+    return ForgotPasswordRes(
+        pinToken: (pinToken != null ? pinToken.value : this.pinToken),
+        ok: (ok != null ? ok.value : this.ok),
+        msg: (msg != null ? msg.value : this.msg));
   }
 }
 
