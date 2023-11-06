@@ -6,11 +6,11 @@ part of 'verification.swagger.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-EmptyReq _$EmptyReqFromJson(Map<String, dynamic> json) => EmptyReq();
+EmptyReq _$EmptyReqFromJson(Map<String, dynamic> json) => const EmptyReq();
 
 Map<String, dynamic> _$EmptyReqToJson(EmptyReq instance) => <String, dynamic>{};
 
-EmptyRes _$EmptyResFromJson(Map<String, dynamic> json) => EmptyRes();
+EmptyRes _$EmptyResFromJson(Map<String, dynamic> json) => const EmptyRes();
 
 Map<String, dynamic> _$EmptyResToJson(EmptyRes instance) => <String, dynamic>{};
 
