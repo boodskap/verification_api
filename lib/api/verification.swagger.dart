@@ -9,6 +9,7 @@ import 'package:chopper/chopper.dart';
 import 'client_mapping.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart' show MultipartFile;
 import 'package:chopper/chopper.dart' as chopper;
 
 part 'verification.swagger.chopper.dart';
@@ -421,6 +422,7 @@ class Registration {
     required this.template,
     required this.fname,
     required this.lname,
+    required this.properties,
   });
 
   factory Registration.fromJson(Map<String, dynamic> json) =>
@@ -443,6 +445,8 @@ class Registration {
   final String fname;
   @JsonKey(name: 'lname', includeIfNull: false, defaultValue: '')
   final String lname;
+  @JsonKey(name: 'properties', includeIfNull: false)
+  final Object properties;
   static const fromJsonFactory = _$RegistrationFromJson;
 
   @override
@@ -464,7 +468,10 @@ class Registration {
             (identical(other.fname, fname) ||
                 const DeepCollectionEquality().equals(other.fname, fname)) &&
             (identical(other.lname, lname) ||
-                const DeepCollectionEquality().equals(other.lname, lname)));
+                const DeepCollectionEquality().equals(other.lname, lname)) &&
+            (identical(other.properties, properties) ||
+                const DeepCollectionEquality()
+                    .equals(other.properties, properties)));
   }
 
   @override
@@ -479,6 +486,7 @@ class Registration {
       const DeepCollectionEquality().hash(template) ^
       const DeepCollectionEquality().hash(fname) ^
       const DeepCollectionEquality().hash(lname) ^
+      const DeepCollectionEquality().hash(properties) ^
       runtimeType.hashCode;
 }
 
@@ -490,7 +498,8 @@ extension $RegistrationExtension on Registration {
       String? subject,
       String? template,
       String? fname,
-      String? lname}) {
+      String? lname,
+      Object? properties}) {
     return Registration(
         email: email ?? this.email,
         phone: phone ?? this.phone,
@@ -498,7 +507,8 @@ extension $RegistrationExtension on Registration {
         subject: subject ?? this.subject,
         template: template ?? this.template,
         fname: fname ?? this.fname,
-        lname: lname ?? this.lname);
+        lname: lname ?? this.lname,
+        properties: properties ?? this.properties);
   }
 
   Registration copyWithWrapped(
@@ -508,7 +518,8 @@ extension $RegistrationExtension on Registration {
       Wrapped<String>? subject,
       Wrapped<String>? template,
       Wrapped<String>? fname,
-      Wrapped<String>? lname}) {
+      Wrapped<String>? lname,
+      Wrapped<Object>? properties}) {
     return Registration(
         email: (email != null ? email.value : this.email),
         phone: (phone != null ? phone.value : this.phone),
@@ -516,7 +527,8 @@ extension $RegistrationExtension on Registration {
         subject: (subject != null ? subject.value : this.subject),
         template: (template != null ? template.value : this.template),
         fname: (fname != null ? fname.value : this.fname),
-        lname: (lname != null ? lname.value : this.lname));
+        lname: (lname != null ? lname.value : this.lname),
+        properties: (properties != null ? properties.value : this.properties));
   }
 }
 
@@ -813,6 +825,7 @@ class VerificationRes {
     required this.authToken,
     required this.connCounter,
     required this.user,
+    required this.properties,
     required this.ok,
     required this.msg,
   });
@@ -829,6 +842,8 @@ class VerificationRes {
   final int connCounter;
   @JsonKey(name: 'user', includeIfNull: false)
   final PlatformUser user;
+  @JsonKey(name: 'properties', includeIfNull: false)
+  final Object properties;
   @JsonKey(name: 'ok', includeIfNull: false)
   final bool ok;
   @JsonKey(name: 'msg', includeIfNull: false, defaultValue: '')
@@ -847,6 +862,9 @@ class VerificationRes {
                     .equals(other.connCounter, connCounter)) &&
             (identical(other.user, user) ||
                 const DeepCollectionEquality().equals(other.user, user)) &&
+            (identical(other.properties, properties) ||
+                const DeepCollectionEquality()
+                    .equals(other.properties, properties)) &&
             (identical(other.ok, ok) ||
                 const DeepCollectionEquality().equals(other.ok, ok)) &&
             (identical(other.msg, msg) ||
@@ -861,6 +879,7 @@ class VerificationRes {
       const DeepCollectionEquality().hash(authToken) ^
       const DeepCollectionEquality().hash(connCounter) ^
       const DeepCollectionEquality().hash(user) ^
+      const DeepCollectionEquality().hash(properties) ^
       const DeepCollectionEquality().hash(ok) ^
       const DeepCollectionEquality().hash(msg) ^
       runtimeType.hashCode;
@@ -871,12 +890,14 @@ extension $VerificationResExtension on VerificationRes {
       {String? authToken,
       int? connCounter,
       PlatformUser? user,
+      Object? properties,
       bool? ok,
       String? msg}) {
     return VerificationRes(
         authToken: authToken ?? this.authToken,
         connCounter: connCounter ?? this.connCounter,
         user: user ?? this.user,
+        properties: properties ?? this.properties,
         ok: ok ?? this.ok,
         msg: msg ?? this.msg);
   }
@@ -885,6 +906,7 @@ extension $VerificationResExtension on VerificationRes {
       {Wrapped<String>? authToken,
       Wrapped<int>? connCounter,
       Wrapped<PlatformUser>? user,
+      Wrapped<Object>? properties,
       Wrapped<bool>? ok,
       Wrapped<String>? msg}) {
     return VerificationRes(
@@ -892,6 +914,7 @@ extension $VerificationResExtension on VerificationRes {
         connCounter:
             (connCounter != null ? connCounter.value : this.connCounter),
         user: (user != null ? user.value : this.user),
+        properties: (properties != null ? properties.value : this.properties),
         ok: (ok != null ? ok.value : this.ok),
         msg: (msg != null ? msg.value : this.msg));
   }

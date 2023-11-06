@@ -1,3 +1,6 @@
+## 1.0.12
+* Added support to add user defined properties object associated with an user
+
 ## 1.0.11
 * Optimized swagger objects to have generate better dart objects
 

@@ -6,11 +6,11 @@ part of 'verification.swagger.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-EmptyReq _$EmptyReqFromJson(Map<String, dynamic> json) => const EmptyReq();
+EmptyReq _$EmptyReqFromJson(Map<String, dynamic> json) => EmptyReq();
 
 Map<String, dynamic> _$EmptyReqToJson(EmptyReq instance) => <String, dynamic>{};
 
-EmptyRes _$EmptyResFromJson(Map<String, dynamic> json) => const EmptyRes();
+EmptyRes _$EmptyResFromJson(Map<String, dynamic> json) => EmptyRes();
 
 Map<String, dynamic> _$EmptyResToJson(EmptyRes instance) => <String, dynamic>{};
 
@@ -58,6 +58,7 @@ Registration _$RegistrationFromJson(Map<String, dynamic> json) => Registration(
       template: json['template'] as String? ?? '',
       fname: json['fname'] as String? ?? '',
       lname: json['lname'] as String? ?? '',
+      properties: json['properties'] as Object,
     );
 
 Map<String, dynamic> _$RegistrationToJson(Registration instance) =>
@@ -69,6 +70,7 @@ Map<String, dynamic> _$RegistrationToJson(Registration instance) =>
       'template': instance.template,
       'fname': instance.fname,
       'lname': instance.lname,
+      'properties': instance.properties,
     };
 
 RegistrationRes _$RegistrationResFromJson(Map<String, dynamic> json) =>
@@ -135,6 +137,7 @@ VerificationRes _$VerificationResFromJson(Map<String, dynamic> json) =>
       authToken: json['authToken'] as String? ?? '',
       connCounter: json['connCounter'] as int,
       user: PlatformUser.fromJson(json['user'] as Map<String, dynamic>),
+      properties: json['properties'] as Object,
       ok: json['ok'] as bool,
       msg: json['msg'] as String? ?? '',
     );
@@ -144,6 +147,7 @@ Map<String, dynamic> _$VerificationResToJson(VerificationRes instance) =>
       'authToken': instance.authToken,
       'connCounter': instance.connCounter,
       'user': instance.user.toJson(),
+      'properties': instance.properties,
       'ok': instance.ok,
       'msg': instance.msg,
     };

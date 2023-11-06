@@ -9,7 +9,7 @@
     "application/json"
   ],
   "info": {
-    "version": "1.0.11",
+    "version": "1.0.12",
     "title": "Verification API",
     "description": "Powered By Boodskap IoT",
     "termsOfService": "https://boodskap.io/terms-conditions",
@@ -404,6 +404,10 @@
         },
         "lname": {
           "type": "string"
+        },
+        "properties": {
+          "type": "object",
+          "default": {}
         }
       }
     },
@@ -519,6 +523,10 @@
         },
         "user": {
           "$ref": "#/definitions/PlatformUser"
+        },
+        "properties": {
+          "type": "object",
+          "default": {}
         }
       }
     },
