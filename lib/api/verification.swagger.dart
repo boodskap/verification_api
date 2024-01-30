@@ -9,6 +9,7 @@ import 'package:chopper/chopper.dart';
 import 'client_mapping.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart' show MultipartFile;
 import 'package:chopper/chopper.dart' as chopper;
 
 part 'verification.swagger.chopper.dart';
@@ -38,42 +39,35 @@ abstract class Verification extends ChopperService {
         interceptors: interceptors ?? [],
         client: httpClient,
         authenticator: authenticator,
-        baseUrl: baseUrl ??
-            Uri.parse(
-                'http://v5dev.boodskap.io/api/micro2/service/call/commons/Verification'));
+        baseUrl: baseUrl ?? Uri.parse('http://auth.boodskap.io/rest/nocode'));
     return _$Verification(newClient);
   }
 
   ///Get Configuration
   ///@param dkey
-  ///@param body
-  Future<chopper.Response<Configuration>> getOrSetConfiguration({
-    String? dkey,
-    Object? body,
-  }) {
-    generatedMapping.putIfAbsent(EmptyReq, () => EmptyReq.fromJsonFactory);
+  Future<chopper.Response<AuthConfiguration>> getOrSetConfiguration(
+      {String? dkey}) {
     generatedMapping.putIfAbsent(
-        Configuration, () => Configuration.fromJsonFactory);
+        AuthConfiguration, () => AuthConfiguration.fromJsonFactory);
 
-    return _getOrSetConfiguration(dkey: dkey?.toString(), body: body);
+    return _getOrSetConfiguration(dkey: dkey?.toString());
   }
 
   ///Get Configuration
   ///@param dkey
-  ///@param body
-  @Post(path: '/post/config')
-  Future<chopper.Response<Configuration>> _getOrSetConfiguration({
-    @Header('dkey') String? dkey,
-    @Body() Object? body,
-  });
+  @Get(path: '/verification/config')
+  Future<chopper.Response<AuthConfiguration>> _getOrSetConfiguration(
+      {@Header('dkey') String? dkey});
 
   ///Do Registration
   ///@param dkey
   ///@param body
   Future<chopper.Response<RegistrationRes>> registerUser({
     String? dkey,
-    required Registration? body,
+    required Object? body,
   }) {
+    generatedMapping.putIfAbsent(
+        Registration, () => Registration.fromJsonFactory);
     generatedMapping.putIfAbsent(
         RegistrationRes, () => RegistrationRes.fromJsonFactory);
 
@@ -83,10 +77,10 @@ abstract class Verification extends ChopperService {
   ///Do Registration
   ///@param dkey
   ///@param body
-  @Post(path: '/post/register')
+  @Post(path: '/verification/register')
   Future<chopper.Response<RegistrationRes>> _registerUser({
     @Header('dkey') String? dkey,
-    @Body() required Registration? body,
+    @Body() required Object? body,
   });
 
   ///Do Verification
@@ -107,7 +101,7 @@ abstract class Verification extends ChopperService {
   ///Do Verification
   ///@param dkey
   ///@param body
-  @Post(path: '/post/verify')
+  @Post(path: '/verification/verify')
   Future<chopper.Response<VerificationRes>> _verifyPin({
     @Header('dkey') String? dkey,
     @Body() required Object? body,
@@ -118,8 +112,9 @@ abstract class Verification extends ChopperService {
   ///@param body
   Future<chopper.Response<VerificationRes>> loginUser({
     String? dkey,
-    required Login? body,
+    required Object? body,
   }) {
+    generatedMapping.putIfAbsent(Login, () => Login.fromJsonFactory);
     generatedMapping.putIfAbsent(
         VerificationRes, () => VerificationRes.fromJsonFactory);
 
@@ -129,10 +124,10 @@ abstract class Verification extends ChopperService {
   ///Do Login
   ///@param dkey
   ///@param body
-  @Post(path: '/post/login')
+  @Post(path: '/verification/login')
   Future<chopper.Response<VerificationRes>> _loginUser({
     @Header('dkey') String? dkey,
-    @Body() required Login? body,
+    @Body() required Object? body,
   });
 
   ///Reset password
@@ -140,8 +135,10 @@ abstract class Verification extends ChopperService {
   ///@param body
   Future<chopper.Response<BaseRes>> resetPassword({
     String? dkey,
-    required ResetPassword? body,
+    required Object? body,
   }) {
+    generatedMapping.putIfAbsent(
+        ResetPassword, () => ResetPassword.fromJsonFactory);
     generatedMapping.putIfAbsent(BaseRes, () => BaseRes.fromJsonFactory);
 
     return _resetPassword(dkey: dkey?.toString(), body: body);
@@ -150,10 +147,10 @@ abstract class Verification extends ChopperService {
   ///Reset password
   ///@param dkey
   ///@param body
-  @Post(path: '/post/reset')
+  @Post(path: '/verification/reset')
   Future<chopper.Response<BaseRes>> _resetPassword({
     @Header('dkey') String? dkey,
-    @Body() required ResetPassword? body,
+    @Body() required Object? body,
   });
 
   ///Forgot password
@@ -161,8 +158,10 @@ abstract class Verification extends ChopperService {
   ///@param body
   Future<chopper.Response<ForgotPasswordRes>> forgotPassword({
     String? dkey,
-    required ForgotPassword? body,
+    required Object? body,
   }) {
+    generatedMapping.putIfAbsent(
+        ForgotPassword, () => ForgotPassword.fromJsonFactory);
     generatedMapping.putIfAbsent(
         ForgotPasswordRes, () => ForgotPasswordRes.fromJsonFactory);
 
@@ -172,10 +171,10 @@ abstract class Verification extends ChopperService {
   ///Forgot password
   ///@param dkey
   ///@param body
-  @Post(path: '/post/forgot')
+  @Post(path: '/verification/forgot')
   Future<chopper.Response<ForgotPasswordRes>> _forgotPassword({
     @Header('dkey') String? dkey,
-    @Body() required ForgotPassword? body,
+    @Body() required Object? body,
   });
 
   ///Change password
@@ -183,8 +182,10 @@ abstract class Verification extends ChopperService {
   ///@param body
   Future<chopper.Response<BaseRes>> changePassword({
     String? dkey,
-    required ChangePassword? body,
+    required Object? body,
   }) {
+    generatedMapping.putIfAbsent(
+        ChangePassword, () => ChangePassword.fromJsonFactory);
     generatedMapping.putIfAbsent(BaseRes, () => BaseRes.fromJsonFactory);
 
     return _changePassword(dkey: dkey?.toString(), body: body);
@@ -193,49 +194,11 @@ abstract class Verification extends ChopperService {
   ///Change password
   ///@param dkey
   ///@param body
-  @Post(path: '/post/change')
+  @Post(path: '/verification/change')
   Future<chopper.Response<BaseRes>> _changePassword({
     @Header('dkey') String? dkey,
-    @Body() required ChangePassword? body,
+    @Body() required Object? body,
   });
-}
-
-@JsonSerializable(explicitToJson: true)
-class EmptyReq {
-  const EmptyReq();
-
-  factory EmptyReq.fromJson(Map<String, dynamic> json) =>
-      _$EmptyReqFromJson(json);
-
-  static const toJsonFactory = _$EmptyReqToJson;
-  Map<String, dynamic> toJson() => _$EmptyReqToJson(this);
-
-  static const fromJsonFactory = _$EmptyReqFromJson;
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-}
-
-@JsonSerializable(explicitToJson: true)
-class EmptyRes {
-  const EmptyRes();
-
-  factory EmptyRes.fromJson(Map<String, dynamic> json) =>
-      _$EmptyResFromJson(json);
-
-  static const toJsonFactory = _$EmptyResToJson;
-  Map<String, dynamic> toJson() => _$EmptyResToJson(this);
-
-  static const fromJsonFactory = _$EmptyResFromJson;
-
-  @override
-  String toString() => jsonEncode(this);
-
-  @override
-  int get hashCode => runtimeType.hashCode;
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -243,6 +206,7 @@ class BaseRes {
   const BaseRes({
     required this.ok,
     required this.msg,
+    required this.trace,
   });
 
   factory BaseRes.fromJson(Map<String, dynamic> json) =>
@@ -255,6 +219,8 @@ class BaseRes {
   final bool ok;
   @JsonKey(name: 'msg', includeIfNull: false, defaultValue: '')
   final String msg;
+  @JsonKey(name: 'trace', includeIfNull: false, defaultValue: '')
+  final String trace;
   static const fromJsonFactory = _$BaseResFromJson;
 
   @override
@@ -264,7 +230,9 @@ class BaseRes {
             (identical(other.ok, ok) ||
                 const DeepCollectionEquality().equals(other.ok, ok)) &&
             (identical(other.msg, msg) ||
-                const DeepCollectionEquality().equals(other.msg, msg)));
+                const DeepCollectionEquality().equals(other.msg, msg)) &&
+            (identical(other.trace, trace) ||
+                const DeepCollectionEquality().equals(other.trace, trace)));
   }
 
   @override
@@ -274,55 +242,49 @@ class BaseRes {
   int get hashCode =>
       const DeepCollectionEquality().hash(ok) ^
       const DeepCollectionEquality().hash(msg) ^
+      const DeepCollectionEquality().hash(trace) ^
       runtimeType.hashCode;
 }
 
 extension $BaseResExtension on BaseRes {
-  BaseRes copyWith({bool? ok, String? msg}) {
-    return BaseRes(ok: ok ?? this.ok, msg: msg ?? this.msg);
+  BaseRes copyWith({bool? ok, String? msg, String? trace}) {
+    return BaseRes(
+        ok: ok ?? this.ok, msg: msg ?? this.msg, trace: trace ?? this.trace);
   }
 
-  BaseRes copyWithWrapped({Wrapped<bool>? ok, Wrapped<String>? msg}) {
+  BaseRes copyWithWrapped(
+      {Wrapped<bool>? ok, Wrapped<String>? msg, Wrapped<String>? trace}) {
     return BaseRes(
         ok: (ok != null ? ok.value : this.ok),
-        msg: (msg != null ? msg.value : this.msg));
+        msg: (msg != null ? msg.value : this.msg),
+        trace: (trace != null ? trace.value : this.trace));
   }
 }
 
 @JsonSerializable(explicitToJson: true)
-class Configuration {
-  const Configuration({
+class AuthConfigurationBase {
+  const AuthConfigurationBase({
     required this.enablePhoneVerification,
-    required this.ok,
-    required this.msg,
   });
 
-  factory Configuration.fromJson(Map<String, dynamic> json) =>
-      _$ConfigurationFromJson(json);
+  factory AuthConfigurationBase.fromJson(Map<String, dynamic> json) =>
+      _$AuthConfigurationBaseFromJson(json);
 
-  static const toJsonFactory = _$ConfigurationToJson;
-  Map<String, dynamic> toJson() => _$ConfigurationToJson(this);
+  static const toJsonFactory = _$AuthConfigurationBaseToJson;
+  Map<String, dynamic> toJson() => _$AuthConfigurationBaseToJson(this);
 
   @JsonKey(name: 'enablePhoneVerification', includeIfNull: false)
   final bool enablePhoneVerification;
-  @JsonKey(name: 'ok', includeIfNull: false)
-  final bool ok;
-  @JsonKey(name: 'msg', includeIfNull: false, defaultValue: '')
-  final String msg;
-  static const fromJsonFactory = _$ConfigurationFromJson;
+  static const fromJsonFactory = _$AuthConfigurationBaseFromJson;
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is Configuration &&
+        (other is AuthConfigurationBase &&
             (identical(
                     other.enablePhoneVerification, enablePhoneVerification) ||
                 const DeepCollectionEquality().equals(
-                    other.enablePhoneVerification, enablePhoneVerification)) &&
-            (identical(other.ok, ok) ||
-                const DeepCollectionEquality().equals(other.ok, ok)) &&
-            (identical(other.msg, msg) ||
-                const DeepCollectionEquality().equals(other.msg, msg)));
+                    other.enablePhoneVerification, enablePhoneVerification)));
   }
 
   @override
@@ -331,31 +293,101 @@ class Configuration {
   @override
   int get hashCode =>
       const DeepCollectionEquality().hash(enablePhoneVerification) ^
-      const DeepCollectionEquality().hash(ok) ^
-      const DeepCollectionEquality().hash(msg) ^
       runtimeType.hashCode;
 }
 
-extension $ConfigurationExtension on Configuration {
-  Configuration copyWith(
-      {bool? enablePhoneVerification, bool? ok, String? msg}) {
-    return Configuration(
+extension $AuthConfigurationBaseExtension on AuthConfigurationBase {
+  AuthConfigurationBase copyWith({bool? enablePhoneVerification}) {
+    return AuthConfigurationBase(
         enablePhoneVerification:
-            enablePhoneVerification ?? this.enablePhoneVerification,
-        ok: ok ?? this.ok,
-        msg: msg ?? this.msg);
+            enablePhoneVerification ?? this.enablePhoneVerification);
   }
 
-  Configuration copyWithWrapped(
-      {Wrapped<bool>? enablePhoneVerification,
-      Wrapped<bool>? ok,
-      Wrapped<String>? msg}) {
-    return Configuration(
+  AuthConfigurationBase copyWithWrapped(
+      {Wrapped<bool>? enablePhoneVerification}) {
+    return AuthConfigurationBase(
         enablePhoneVerification: (enablePhoneVerification != null
             ? enablePhoneVerification.value
-            : this.enablePhoneVerification),
+            : this.enablePhoneVerification));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class AuthConfiguration {
+  const AuthConfiguration({
+    required this.ok,
+    required this.msg,
+    required this.trace,
+    required this.enablePhoneVerification,
+  });
+
+  factory AuthConfiguration.fromJson(Map<String, dynamic> json) =>
+      _$AuthConfigurationFromJson(json);
+
+  static const toJsonFactory = _$AuthConfigurationToJson;
+  Map<String, dynamic> toJson() => _$AuthConfigurationToJson(this);
+
+  @JsonKey(name: 'ok', includeIfNull: false)
+  final bool ok;
+  @JsonKey(name: 'msg', includeIfNull: false, defaultValue: '')
+  final String msg;
+  @JsonKey(name: 'trace', includeIfNull: false, defaultValue: '')
+  final String trace;
+  @JsonKey(name: 'enablePhoneVerification', includeIfNull: false)
+  final bool enablePhoneVerification;
+  static const fromJsonFactory = _$AuthConfigurationFromJson;
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is AuthConfiguration &&
+            (identical(other.ok, ok) ||
+                const DeepCollectionEquality().equals(other.ok, ok)) &&
+            (identical(other.msg, msg) ||
+                const DeepCollectionEquality().equals(other.msg, msg)) &&
+            (identical(other.trace, trace) ||
+                const DeepCollectionEquality().equals(other.trace, trace)) &&
+            (identical(
+                    other.enablePhoneVerification, enablePhoneVerification) ||
+                const DeepCollectionEquality().equals(
+                    other.enablePhoneVerification, enablePhoneVerification)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(ok) ^
+      const DeepCollectionEquality().hash(msg) ^
+      const DeepCollectionEquality().hash(trace) ^
+      const DeepCollectionEquality().hash(enablePhoneVerification) ^
+      runtimeType.hashCode;
+}
+
+extension $AuthConfigurationExtension on AuthConfiguration {
+  AuthConfiguration copyWith(
+      {bool? ok, String? msg, String? trace, bool? enablePhoneVerification}) {
+    return AuthConfiguration(
+        ok: ok ?? this.ok,
+        msg: msg ?? this.msg,
+        trace: trace ?? this.trace,
+        enablePhoneVerification:
+            enablePhoneVerification ?? this.enablePhoneVerification);
+  }
+
+  AuthConfiguration copyWithWrapped(
+      {Wrapped<bool>? ok,
+      Wrapped<String>? msg,
+      Wrapped<String>? trace,
+      Wrapped<bool>? enablePhoneVerification}) {
+    return AuthConfiguration(
         ok: (ok != null ? ok.value : this.ok),
-        msg: (msg != null ? msg.value : this.msg));
+        msg: (msg != null ? msg.value : this.msg),
+        trace: (trace != null ? trace.value : this.trace),
+        enablePhoneVerification: (enablePhoneVerification != null
+            ? enablePhoneVerification.value
+            : this.enablePhoneVerification));
   }
 }
 
@@ -532,20 +564,18 @@ extension $RegistrationExtension on Registration {
 }
 
 @JsonSerializable(explicitToJson: true)
-class RegistrationRes {
-  const RegistrationRes({
+class RegistrationSuccess {
+  const RegistrationSuccess({
     required this.pinToken,
     required this.authToken,
     required this.delivery,
-    required this.ok,
-    required this.msg,
   });
 
-  factory RegistrationRes.fromJson(Map<String, dynamic> json) =>
-      _$RegistrationResFromJson(json);
+  factory RegistrationSuccess.fromJson(Map<String, dynamic> json) =>
+      _$RegistrationSuccessFromJson(json);
 
-  static const toJsonFactory = _$RegistrationResToJson;
-  Map<String, dynamic> toJson() => _$RegistrationResToJson(this);
+  static const toJsonFactory = _$RegistrationSuccessToJson;
+  Map<String, dynamic> toJson() => _$RegistrationSuccessToJson(this);
 
   @JsonKey(name: 'pinToken', includeIfNull: false, defaultValue: '')
   final String pinToken;
@@ -553,16 +583,12 @@ class RegistrationRes {
   final String authToken;
   @JsonKey(name: 'delivery', includeIfNull: false)
   final Object delivery;
-  @JsonKey(name: 'ok', includeIfNull: false)
-  final bool ok;
-  @JsonKey(name: 'msg', includeIfNull: false, defaultValue: '')
-  final String msg;
-  static const fromJsonFactory = _$RegistrationResFromJson;
+  static const fromJsonFactory = _$RegistrationSuccessFromJson;
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is RegistrationRes &&
+        (other is RegistrationSuccess &&
             (identical(other.pinToken, pinToken) ||
                 const DeepCollectionEquality()
                     .equals(other.pinToken, pinToken)) &&
@@ -571,11 +597,7 @@ class RegistrationRes {
                     .equals(other.authToken, authToken)) &&
             (identical(other.delivery, delivery) ||
                 const DeepCollectionEquality()
-                    .equals(other.delivery, delivery)) &&
-            (identical(other.ok, ok) ||
-                const DeepCollectionEquality().equals(other.ok, ok)) &&
-            (identical(other.msg, msg) ||
-                const DeepCollectionEquality().equals(other.msg, msg)));
+                    .equals(other.delivery, delivery)));
   }
 
   @override
@@ -586,38 +608,126 @@ class RegistrationRes {
       const DeepCollectionEquality().hash(pinToken) ^
       const DeepCollectionEquality().hash(authToken) ^
       const DeepCollectionEquality().hash(delivery) ^
+      runtimeType.hashCode;
+}
+
+extension $RegistrationSuccessExtension on RegistrationSuccess {
+  RegistrationSuccess copyWith(
+      {String? pinToken, String? authToken, Object? delivery}) {
+    return RegistrationSuccess(
+        pinToken: pinToken ?? this.pinToken,
+        authToken: authToken ?? this.authToken,
+        delivery: delivery ?? this.delivery);
+  }
+
+  RegistrationSuccess copyWithWrapped(
+      {Wrapped<String>? pinToken,
+      Wrapped<String>? authToken,
+      Wrapped<Object>? delivery}) {
+    return RegistrationSuccess(
+        pinToken: (pinToken != null ? pinToken.value : this.pinToken),
+        authToken: (authToken != null ? authToken.value : this.authToken),
+        delivery: (delivery != null ? delivery.value : this.delivery));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class RegistrationRes {
+  const RegistrationRes({
+    required this.ok,
+    required this.msg,
+    required this.trace,
+    required this.pinToken,
+    required this.authToken,
+    required this.delivery,
+  });
+
+  factory RegistrationRes.fromJson(Map<String, dynamic> json) =>
+      _$RegistrationResFromJson(json);
+
+  static const toJsonFactory = _$RegistrationResToJson;
+  Map<String, dynamic> toJson() => _$RegistrationResToJson(this);
+
+  @JsonKey(name: 'ok', includeIfNull: false)
+  final bool ok;
+  @JsonKey(name: 'msg', includeIfNull: false, defaultValue: '')
+  final String msg;
+  @JsonKey(name: 'trace', includeIfNull: false, defaultValue: '')
+  final String trace;
+  @JsonKey(name: 'pinToken', includeIfNull: false, defaultValue: '')
+  final String pinToken;
+  @JsonKey(name: 'authToken', includeIfNull: false, defaultValue: '')
+  final String authToken;
+  @JsonKey(name: 'delivery', includeIfNull: false)
+  final Object delivery;
+  static const fromJsonFactory = _$RegistrationResFromJson;
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is RegistrationRes &&
+            (identical(other.ok, ok) ||
+                const DeepCollectionEquality().equals(other.ok, ok)) &&
+            (identical(other.msg, msg) ||
+                const DeepCollectionEquality().equals(other.msg, msg)) &&
+            (identical(other.trace, trace) ||
+                const DeepCollectionEquality().equals(other.trace, trace)) &&
+            (identical(other.pinToken, pinToken) ||
+                const DeepCollectionEquality()
+                    .equals(other.pinToken, pinToken)) &&
+            (identical(other.authToken, authToken) ||
+                const DeepCollectionEquality()
+                    .equals(other.authToken, authToken)) &&
+            (identical(other.delivery, delivery) ||
+                const DeepCollectionEquality()
+                    .equals(other.delivery, delivery)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
       const DeepCollectionEquality().hash(ok) ^
       const DeepCollectionEquality().hash(msg) ^
+      const DeepCollectionEquality().hash(trace) ^
+      const DeepCollectionEquality().hash(pinToken) ^
+      const DeepCollectionEquality().hash(authToken) ^
+      const DeepCollectionEquality().hash(delivery) ^
       runtimeType.hashCode;
 }
 
 extension $RegistrationResExtension on RegistrationRes {
   RegistrationRes copyWith(
-      {String? pinToken,
+      {bool? ok,
+      String? msg,
+      String? trace,
+      String? pinToken,
       String? authToken,
-      Object? delivery,
-      bool? ok,
-      String? msg}) {
+      Object? delivery}) {
     return RegistrationRes(
+        ok: ok ?? this.ok,
+        msg: msg ?? this.msg,
+        trace: trace ?? this.trace,
         pinToken: pinToken ?? this.pinToken,
         authToken: authToken ?? this.authToken,
-        delivery: delivery ?? this.delivery,
-        ok: ok ?? this.ok,
-        msg: msg ?? this.msg);
+        delivery: delivery ?? this.delivery);
   }
 
   RegistrationRes copyWithWrapped(
-      {Wrapped<String>? pinToken,
+      {Wrapped<bool>? ok,
+      Wrapped<String>? msg,
+      Wrapped<String>? trace,
+      Wrapped<String>? pinToken,
       Wrapped<String>? authToken,
-      Wrapped<Object>? delivery,
-      Wrapped<bool>? ok,
-      Wrapped<String>? msg}) {
+      Wrapped<Object>? delivery}) {
     return RegistrationRes(
+        ok: (ok != null ? ok.value : this.ok),
+        msg: (msg != null ? msg.value : this.msg),
+        trace: (trace != null ? trace.value : this.trace),
         pinToken: (pinToken != null ? pinToken.value : this.pinToken),
         authToken: (authToken != null ? authToken.value : this.authToken),
-        delivery: (delivery != null ? delivery.value : this.delivery),
-        ok: (ok != null ? ok.value : this.ok),
-        msg: (msg != null ? msg.value : this.msg));
+        delivery: (delivery != null ? delivery.value : this.delivery));
   }
 }
 
@@ -819,21 +929,19 @@ extension $PlatformUserExtension on PlatformUser {
 }
 
 @JsonSerializable(explicitToJson: true)
-class VerificationRes {
-  const VerificationRes({
+class VerificationSuccess {
+  const VerificationSuccess({
     required this.authToken,
     required this.connCounter,
     required this.user,
     required this.properties,
-    required this.ok,
-    required this.msg,
   });
 
-  factory VerificationRes.fromJson(Map<String, dynamic> json) =>
-      _$VerificationResFromJson(json);
+  factory VerificationSuccess.fromJson(Map<String, dynamic> json) =>
+      _$VerificationSuccessFromJson(json);
 
-  static const toJsonFactory = _$VerificationResToJson;
-  Map<String, dynamic> toJson() => _$VerificationResToJson(this);
+  static const toJsonFactory = _$VerificationSuccessToJson;
+  Map<String, dynamic> toJson() => _$VerificationSuccessToJson(this);
 
   @JsonKey(name: 'authToken', includeIfNull: false, defaultValue: '')
   final String authToken;
@@ -843,16 +951,12 @@ class VerificationRes {
   final PlatformUser user;
   @JsonKey(name: 'properties', includeIfNull: false)
   final Object properties;
-  @JsonKey(name: 'ok', includeIfNull: false)
-  final bool ok;
-  @JsonKey(name: 'msg', includeIfNull: false, defaultValue: '')
-  final String msg;
-  static const fromJsonFactory = _$VerificationResFromJson;
+  static const fromJsonFactory = _$VerificationSuccessFromJson;
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is VerificationRes &&
+        (other is VerificationSuccess &&
             (identical(other.authToken, authToken) ||
                 const DeepCollectionEquality()
                     .equals(other.authToken, authToken)) &&
@@ -863,11 +967,7 @@ class VerificationRes {
                 const DeepCollectionEquality().equals(other.user, user)) &&
             (identical(other.properties, properties) ||
                 const DeepCollectionEquality()
-                    .equals(other.properties, properties)) &&
-            (identical(other.ok, ok) ||
-                const DeepCollectionEquality().equals(other.ok, ok)) &&
-            (identical(other.msg, msg) ||
-                const DeepCollectionEquality().equals(other.msg, msg)));
+                    .equals(other.properties, properties)));
   }
 
   @override
@@ -879,43 +979,144 @@ class VerificationRes {
       const DeepCollectionEquality().hash(connCounter) ^
       const DeepCollectionEquality().hash(user) ^
       const DeepCollectionEquality().hash(properties) ^
+      runtimeType.hashCode;
+}
+
+extension $VerificationSuccessExtension on VerificationSuccess {
+  VerificationSuccess copyWith(
+      {String? authToken,
+      int? connCounter,
+      PlatformUser? user,
+      Object? properties}) {
+    return VerificationSuccess(
+        authToken: authToken ?? this.authToken,
+        connCounter: connCounter ?? this.connCounter,
+        user: user ?? this.user,
+        properties: properties ?? this.properties);
+  }
+
+  VerificationSuccess copyWithWrapped(
+      {Wrapped<String>? authToken,
+      Wrapped<int>? connCounter,
+      Wrapped<PlatformUser>? user,
+      Wrapped<Object>? properties}) {
+    return VerificationSuccess(
+        authToken: (authToken != null ? authToken.value : this.authToken),
+        connCounter:
+            (connCounter != null ? connCounter.value : this.connCounter),
+        user: (user != null ? user.value : this.user),
+        properties: (properties != null ? properties.value : this.properties));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class VerificationRes {
+  const VerificationRes({
+    required this.ok,
+    required this.msg,
+    required this.trace,
+    required this.authToken,
+    required this.connCounter,
+    required this.user,
+    required this.properties,
+  });
+
+  factory VerificationRes.fromJson(Map<String, dynamic> json) =>
+      _$VerificationResFromJson(json);
+
+  static const toJsonFactory = _$VerificationResToJson;
+  Map<String, dynamic> toJson() => _$VerificationResToJson(this);
+
+  @JsonKey(name: 'ok', includeIfNull: false)
+  final bool ok;
+  @JsonKey(name: 'msg', includeIfNull: false, defaultValue: '')
+  final String msg;
+  @JsonKey(name: 'trace', includeIfNull: false, defaultValue: '')
+  final String trace;
+  @JsonKey(name: 'authToken', includeIfNull: false, defaultValue: '')
+  final String authToken;
+  @JsonKey(name: 'connCounter', includeIfNull: false)
+  final int connCounter;
+  @JsonKey(name: 'user', includeIfNull: false)
+  final PlatformUser user;
+  @JsonKey(name: 'properties', includeIfNull: false)
+  final Object properties;
+  static const fromJsonFactory = _$VerificationResFromJson;
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is VerificationRes &&
+            (identical(other.ok, ok) ||
+                const DeepCollectionEquality().equals(other.ok, ok)) &&
+            (identical(other.msg, msg) ||
+                const DeepCollectionEquality().equals(other.msg, msg)) &&
+            (identical(other.trace, trace) ||
+                const DeepCollectionEquality().equals(other.trace, trace)) &&
+            (identical(other.authToken, authToken) ||
+                const DeepCollectionEquality()
+                    .equals(other.authToken, authToken)) &&
+            (identical(other.connCounter, connCounter) ||
+                const DeepCollectionEquality()
+                    .equals(other.connCounter, connCounter)) &&
+            (identical(other.user, user) ||
+                const DeepCollectionEquality().equals(other.user, user)) &&
+            (identical(other.properties, properties) ||
+                const DeepCollectionEquality()
+                    .equals(other.properties, properties)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
       const DeepCollectionEquality().hash(ok) ^
       const DeepCollectionEquality().hash(msg) ^
+      const DeepCollectionEquality().hash(trace) ^
+      const DeepCollectionEquality().hash(authToken) ^
+      const DeepCollectionEquality().hash(connCounter) ^
+      const DeepCollectionEquality().hash(user) ^
+      const DeepCollectionEquality().hash(properties) ^
       runtimeType.hashCode;
 }
 
 extension $VerificationResExtension on VerificationRes {
   VerificationRes copyWith(
-      {String? authToken,
+      {bool? ok,
+      String? msg,
+      String? trace,
+      String? authToken,
       int? connCounter,
       PlatformUser? user,
-      Object? properties,
-      bool? ok,
-      String? msg}) {
+      Object? properties}) {
     return VerificationRes(
+        ok: ok ?? this.ok,
+        msg: msg ?? this.msg,
+        trace: trace ?? this.trace,
         authToken: authToken ?? this.authToken,
         connCounter: connCounter ?? this.connCounter,
         user: user ?? this.user,
-        properties: properties ?? this.properties,
-        ok: ok ?? this.ok,
-        msg: msg ?? this.msg);
+        properties: properties ?? this.properties);
   }
 
   VerificationRes copyWithWrapped(
-      {Wrapped<String>? authToken,
+      {Wrapped<bool>? ok,
+      Wrapped<String>? msg,
+      Wrapped<String>? trace,
+      Wrapped<String>? authToken,
       Wrapped<int>? connCounter,
       Wrapped<PlatformUser>? user,
-      Wrapped<Object>? properties,
-      Wrapped<bool>? ok,
-      Wrapped<String>? msg}) {
+      Wrapped<Object>? properties}) {
     return VerificationRes(
+        ok: (ok != null ? ok.value : this.ok),
+        msg: (msg != null ? msg.value : this.msg),
+        trace: (trace != null ? trace.value : this.trace),
         authToken: (authToken != null ? authToken.value : this.authToken),
         connCounter:
             (connCounter != null ? connCounter.value : this.connCounter),
         user: (user != null ? user.value : this.user),
-        properties: (properties != null ? properties.value : this.properties),
-        ok: (ok != null ? ok.value : this.ok),
-        msg: (msg != null ? msg.value : this.msg));
+        properties: (properties != null ? properties.value : this.properties));
   }
 }
 
@@ -1062,11 +1263,56 @@ extension $ForgotPasswordExtension on ForgotPassword {
 }
 
 @JsonSerializable(explicitToJson: true)
+class ForgotPasswordSuccess {
+  const ForgotPasswordSuccess({
+    required this.pinToken,
+  });
+
+  factory ForgotPasswordSuccess.fromJson(Map<String, dynamic> json) =>
+      _$ForgotPasswordSuccessFromJson(json);
+
+  static const toJsonFactory = _$ForgotPasswordSuccessToJson;
+  Map<String, dynamic> toJson() => _$ForgotPasswordSuccessToJson(this);
+
+  @JsonKey(name: 'pinToken', includeIfNull: false, defaultValue: '')
+  final String pinToken;
+  static const fromJsonFactory = _$ForgotPasswordSuccessFromJson;
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is ForgotPasswordSuccess &&
+            (identical(other.pinToken, pinToken) ||
+                const DeepCollectionEquality()
+                    .equals(other.pinToken, pinToken)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(pinToken) ^ runtimeType.hashCode;
+}
+
+extension $ForgotPasswordSuccessExtension on ForgotPasswordSuccess {
+  ForgotPasswordSuccess copyWith({String? pinToken}) {
+    return ForgotPasswordSuccess(pinToken: pinToken ?? this.pinToken);
+  }
+
+  ForgotPasswordSuccess copyWithWrapped({Wrapped<String>? pinToken}) {
+    return ForgotPasswordSuccess(
+        pinToken: (pinToken != null ? pinToken.value : this.pinToken));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class ForgotPasswordRes {
   const ForgotPasswordRes({
-    required this.pinToken,
     required this.ok,
     required this.msg,
+    required this.trace,
+    required this.pinToken,
   });
 
   factory ForgotPasswordRes.fromJson(Map<String, dynamic> json) =>
@@ -1075,25 +1321,29 @@ class ForgotPasswordRes {
   static const toJsonFactory = _$ForgotPasswordResToJson;
   Map<String, dynamic> toJson() => _$ForgotPasswordResToJson(this);
 
-  @JsonKey(name: 'pinToken', includeIfNull: false, defaultValue: '')
-  final String pinToken;
   @JsonKey(name: 'ok', includeIfNull: false)
   final bool ok;
   @JsonKey(name: 'msg', includeIfNull: false, defaultValue: '')
   final String msg;
+  @JsonKey(name: 'trace', includeIfNull: false, defaultValue: '')
+  final String trace;
+  @JsonKey(name: 'pinToken', includeIfNull: false, defaultValue: '')
+  final String pinToken;
   static const fromJsonFactory = _$ForgotPasswordResFromJson;
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is ForgotPasswordRes &&
-            (identical(other.pinToken, pinToken) ||
-                const DeepCollectionEquality()
-                    .equals(other.pinToken, pinToken)) &&
             (identical(other.ok, ok) ||
                 const DeepCollectionEquality().equals(other.ok, ok)) &&
             (identical(other.msg, msg) ||
-                const DeepCollectionEquality().equals(other.msg, msg)));
+                const DeepCollectionEquality().equals(other.msg, msg)) &&
+            (identical(other.trace, trace) ||
+                const DeepCollectionEquality().equals(other.trace, trace)) &&
+            (identical(other.pinToken, pinToken) ||
+                const DeepCollectionEquality()
+                    .equals(other.pinToken, pinToken)));
   }
 
   @override
@@ -1101,26 +1351,33 @@ class ForgotPasswordRes {
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(pinToken) ^
       const DeepCollectionEquality().hash(ok) ^
       const DeepCollectionEquality().hash(msg) ^
+      const DeepCollectionEquality().hash(trace) ^
+      const DeepCollectionEquality().hash(pinToken) ^
       runtimeType.hashCode;
 }
 
 extension $ForgotPasswordResExtension on ForgotPasswordRes {
-  ForgotPasswordRes copyWith({String? pinToken, bool? ok, String? msg}) {
+  ForgotPasswordRes copyWith(
+      {bool? ok, String? msg, String? trace, String? pinToken}) {
     return ForgotPasswordRes(
-        pinToken: pinToken ?? this.pinToken,
         ok: ok ?? this.ok,
-        msg: msg ?? this.msg);
+        msg: msg ?? this.msg,
+        trace: trace ?? this.trace,
+        pinToken: pinToken ?? this.pinToken);
   }
 
   ForgotPasswordRes copyWithWrapped(
-      {Wrapped<String>? pinToken, Wrapped<bool>? ok, Wrapped<String>? msg}) {
+      {Wrapped<bool>? ok,
+      Wrapped<String>? msg,
+      Wrapped<String>? trace,
+      Wrapped<String>? pinToken}) {
     return ForgotPasswordRes(
-        pinToken: (pinToken != null ? pinToken.value : this.pinToken),
         ok: (ok != null ? ok.value : this.ok),
-        msg: (msg != null ? msg.value : this.msg));
+        msg: (msg != null ? msg.value : this.msg),
+        trace: (trace != null ? trace.value : this.trace),
+        pinToken: (pinToken != null ? pinToken.value : this.pinToken));
   }
 }
 

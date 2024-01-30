@@ -17,31 +17,26 @@ final class _$Verification extends Verification {
   final definitionType = Verification;
 
   @override
-  Future<Response<Configuration>> _getOrSetConfiguration({
-    String? dkey,
-    Object? body,
-  }) {
-    final Uri $url = Uri.parse('/post/config');
+  Future<Response<AuthConfiguration>> _getOrSetConfiguration({String? dkey}) {
+    final Uri $url = Uri.parse('/verification/config');
     final Map<String, String> $headers = {
       if (dkey != null) 'dkey': dkey,
     };
-    final $body = body;
     final Request $request = Request(
-      'POST',
+      'GET',
       $url,
       client.baseUrl,
-      body: $body,
       headers: $headers,
     );
-    return client.send<Configuration, Configuration>($request);
+    return client.send<AuthConfiguration, AuthConfiguration>($request);
   }
 
   @override
   Future<Response<RegistrationRes>> _registerUser({
     String? dkey,
-    required Registration? body,
+    required Object? body,
   }) {
-    final Uri $url = Uri.parse('/post/register');
+    final Uri $url = Uri.parse('/verification/register');
     final Map<String, String> $headers = {
       if (dkey != null) 'dkey': dkey,
     };
@@ -61,7 +56,7 @@ final class _$Verification extends Verification {
     String? dkey,
     required Object? body,
   }) {
-    final Uri $url = Uri.parse('/post/verify');
+    final Uri $url = Uri.parse('/verification/verify');
     final Map<String, String> $headers = {
       if (dkey != null) 'dkey': dkey,
     };
@@ -79,9 +74,9 @@ final class _$Verification extends Verification {
   @override
   Future<Response<VerificationRes>> _loginUser({
     String? dkey,
-    required Login? body,
+    required Object? body,
   }) {
-    final Uri $url = Uri.parse('/post/login');
+    final Uri $url = Uri.parse('/verification/login');
     final Map<String, String> $headers = {
       if (dkey != null) 'dkey': dkey,
     };
@@ -99,9 +94,9 @@ final class _$Verification extends Verification {
   @override
   Future<Response<BaseRes>> _resetPassword({
     String? dkey,
-    required ResetPassword? body,
+    required Object? body,
   }) {
-    final Uri $url = Uri.parse('/post/reset');
+    final Uri $url = Uri.parse('/verification/reset');
     final Map<String, String> $headers = {
       if (dkey != null) 'dkey': dkey,
     };
@@ -119,9 +114,9 @@ final class _$Verification extends Verification {
   @override
   Future<Response<ForgotPasswordRes>> _forgotPassword({
     String? dkey,
-    required ForgotPassword? body,
+    required Object? body,
   }) {
-    final Uri $url = Uri.parse('/post/forgot');
+    final Uri $url = Uri.parse('/verification/forgot');
     final Map<String, String> $headers = {
       if (dkey != null) 'dkey': dkey,
     };
@@ -139,9 +134,9 @@ final class _$Verification extends Verification {
   @override
   Future<Response<BaseRes>> _changePassword({
     String? dkey,
-    required ChangePassword? body,
+    required Object? body,
   }) {
-    final Uri $url = Uri.parse('/post/change');
+    final Uri $url = Uri.parse('/verification/change');
     final Map<String, String> $headers = {
       if (dkey != null) 'dkey': dkey,
     };

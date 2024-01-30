@@ -6,36 +6,44 @@ part of 'verification.swagger.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-EmptyReq _$EmptyReqFromJson(Map<String, dynamic> json) => const EmptyReq();
-
-Map<String, dynamic> _$EmptyReqToJson(EmptyReq instance) => <String, dynamic>{};
-
-EmptyRes _$EmptyResFromJson(Map<String, dynamic> json) => const EmptyRes();
-
-Map<String, dynamic> _$EmptyResToJson(EmptyRes instance) => <String, dynamic>{};
-
 BaseRes _$BaseResFromJson(Map<String, dynamic> json) => BaseRes(
       ok: json['ok'] as bool,
       msg: json['msg'] as String? ?? '',
+      trace: json['trace'] as String? ?? '',
     );
 
 Map<String, dynamic> _$BaseResToJson(BaseRes instance) => <String, dynamic>{
       'ok': instance.ok,
       'msg': instance.msg,
+      'trace': instance.trace,
     };
 
-Configuration _$ConfigurationFromJson(Map<String, dynamic> json) =>
-    Configuration(
+AuthConfigurationBase _$AuthConfigurationBaseFromJson(
+        Map<String, dynamic> json) =>
+    AuthConfigurationBase(
       enablePhoneVerification: json['enablePhoneVerification'] as bool,
-      ok: json['ok'] as bool,
-      msg: json['msg'] as String? ?? '',
     );
 
-Map<String, dynamic> _$ConfigurationToJson(Configuration instance) =>
+Map<String, dynamic> _$AuthConfigurationBaseToJson(
+        AuthConfigurationBase instance) =>
     <String, dynamic>{
       'enablePhoneVerification': instance.enablePhoneVerification,
+    };
+
+AuthConfiguration _$AuthConfigurationFromJson(Map<String, dynamic> json) =>
+    AuthConfiguration(
+      ok: json['ok'] as bool,
+      msg: json['msg'] as String? ?? '',
+      trace: json['trace'] as String? ?? '',
+      enablePhoneVerification: json['enablePhoneVerification'] as bool,
+    );
+
+Map<String, dynamic> _$AuthConfigurationToJson(AuthConfiguration instance) =>
+    <String, dynamic>{
       'ok': instance.ok,
       'msg': instance.msg,
+      'trace': instance.trace,
+      'enablePhoneVerification': instance.enablePhoneVerification,
     };
 
 Login _$LoginFromJson(Map<String, dynamic> json) => Login(
@@ -73,22 +81,39 @@ Map<String, dynamic> _$RegistrationToJson(Registration instance) =>
       'properties': instance.properties,
     };
 
-RegistrationRes _$RegistrationResFromJson(Map<String, dynamic> json) =>
-    RegistrationRes(
+RegistrationSuccess _$RegistrationSuccessFromJson(Map<String, dynamic> json) =>
+    RegistrationSuccess(
       pinToken: json['pinToken'] as String? ?? '',
       authToken: json['authToken'] as String? ?? '',
       delivery: json['delivery'] as Object,
-      ok: json['ok'] as bool,
-      msg: json['msg'] as String? ?? '',
     );
 
-Map<String, dynamic> _$RegistrationResToJson(RegistrationRes instance) =>
+Map<String, dynamic> _$RegistrationSuccessToJson(
+        RegistrationSuccess instance) =>
     <String, dynamic>{
       'pinToken': instance.pinToken,
       'authToken': instance.authToken,
       'delivery': instance.delivery,
+    };
+
+RegistrationRes _$RegistrationResFromJson(Map<String, dynamic> json) =>
+    RegistrationRes(
+      ok: json['ok'] as bool,
+      msg: json['msg'] as String? ?? '',
+      trace: json['trace'] as String? ?? '',
+      pinToken: json['pinToken'] as String? ?? '',
+      authToken: json['authToken'] as String? ?? '',
+      delivery: json['delivery'] as Object,
+    );
+
+Map<String, dynamic> _$RegistrationResToJson(RegistrationRes instance) =>
+    <String, dynamic>{
       'ok': instance.ok,
       'msg': instance.msg,
+      'trace': instance.trace,
+      'pinToken': instance.pinToken,
+      'authToken': instance.authToken,
+      'delivery': instance.delivery,
     };
 
 VerificationReq _$VerificationReqFromJson(Map<String, dynamic> json) =>
@@ -132,24 +157,43 @@ Map<String, dynamic> _$PlatformUserToJson(PlatformUser instance) =>
       'roles': instance.roles,
     };
 
-VerificationRes _$VerificationResFromJson(Map<String, dynamic> json) =>
-    VerificationRes(
+VerificationSuccess _$VerificationSuccessFromJson(Map<String, dynamic> json) =>
+    VerificationSuccess(
       authToken: json['authToken'] as String? ?? '',
       connCounter: json['connCounter'] as int,
       user: PlatformUser.fromJson(json['user'] as Map<String, dynamic>),
       properties: json['properties'] as Object,
-      ok: json['ok'] as bool,
-      msg: json['msg'] as String? ?? '',
     );
 
-Map<String, dynamic> _$VerificationResToJson(VerificationRes instance) =>
+Map<String, dynamic> _$VerificationSuccessToJson(
+        VerificationSuccess instance) =>
     <String, dynamic>{
       'authToken': instance.authToken,
       'connCounter': instance.connCounter,
       'user': instance.user.toJson(),
       'properties': instance.properties,
+    };
+
+VerificationRes _$VerificationResFromJson(Map<String, dynamic> json) =>
+    VerificationRes(
+      ok: json['ok'] as bool,
+      msg: json['msg'] as String? ?? '',
+      trace: json['trace'] as String? ?? '',
+      authToken: json['authToken'] as String? ?? '',
+      connCounter: json['connCounter'] as int,
+      user: PlatformUser.fromJson(json['user'] as Map<String, dynamic>),
+      properties: json['properties'] as Object,
+    );
+
+Map<String, dynamic> _$VerificationResToJson(VerificationRes instance) =>
+    <String, dynamic>{
       'ok': instance.ok,
       'msg': instance.msg,
+      'trace': instance.trace,
+      'authToken': instance.authToken,
+      'connCounter': instance.connCounter,
+      'user': instance.user.toJson(),
+      'properties': instance.properties,
     };
 
 ResetPassword _$ResetPasswordFromJson(Map<String, dynamic> json) =>
@@ -182,18 +226,32 @@ Map<String, dynamic> _$ForgotPasswordToJson(ForgotPassword instance) =>
       'template': instance.template,
     };
 
+ForgotPasswordSuccess _$ForgotPasswordSuccessFromJson(
+        Map<String, dynamic> json) =>
+    ForgotPasswordSuccess(
+      pinToken: json['pinToken'] as String? ?? '',
+    );
+
+Map<String, dynamic> _$ForgotPasswordSuccessToJson(
+        ForgotPasswordSuccess instance) =>
+    <String, dynamic>{
+      'pinToken': instance.pinToken,
+    };
+
 ForgotPasswordRes _$ForgotPasswordResFromJson(Map<String, dynamic> json) =>
     ForgotPasswordRes(
-      pinToken: json['pinToken'] as String? ?? '',
       ok: json['ok'] as bool,
       msg: json['msg'] as String? ?? '',
+      trace: json['trace'] as String? ?? '',
+      pinToken: json['pinToken'] as String? ?? '',
     );
 
 Map<String, dynamic> _$ForgotPasswordResToJson(ForgotPasswordRes instance) =>
     <String, dynamic>{
-      'pinToken': instance.pinToken,
       'ok': instance.ok,
       'msg': instance.msg,
+      'trace': instance.trace,
+      'pinToken': instance.pinToken,
     };
 
 ChangePassword _$ChangePasswordFromJson(Map<String, dynamic> json) =>

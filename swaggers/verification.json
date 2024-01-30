@@ -1,18 +1,13 @@
 {
   "swagger": "2.0",
-  "host": "v5dev.boodskap.io",
-  "basePath": "/api/micro2/service/call/commons/Verification",
-  "schemes": [
-    "https"
-  ],
   "produces": [
     "application/json"
   ],
   "info": {
-    "version": "1.0.12",
-    "title": "Verification API",
-    "description": "Powered By Boodskap IoT",
-    "termsOfService": "https://boodskap.io/terms-conditions",
+    "version": "1.1.0",
+    "title": "NoCode Verification API",
+    "description": "NoCode Verification API",
+    "termsOfService": "https:/boodskap.io/terms-conditions",
     "contact": {
       "name": "Boodskap Team"
     },
@@ -20,9 +15,14 @@
       "name": "MIT"
     }
   },
+  "host": "auth.boodskap.io",
+  "basePath": "/rest/nocode",
+  "schemes": [
+    "https"
+  ],
   "paths": {
-    "/post/config": {
-      "post": {
+    "/verification/config": {
+      "get": {
         "tags": [
           "Verification"
         ],
@@ -41,27 +41,19 @@
             "in": "header",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": false,
-            "schema": {
-              "$ref": "#/definitions/EmptyReq"
-            }
           }
         ],
         "responses": {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/Configuration"
+              "$ref": "#/definitions/AuthConfiguration"
             }
           }
         }
       }
     },
-    "/post/register": {
+    "/verification/register": {
       "post": {
         "tags": [
           "Verification"
@@ -101,7 +93,7 @@
         }
       }
     },
-    "/post/verify": {
+    "/verification/verify": {
       "post": {
         "tags": [
           "Verification"
@@ -141,7 +133,7 @@
         }
       }
     },
-    "/post/login": {
+    "/verification/login": {
       "post": {
         "tags": [
           "Verification"
@@ -181,7 +173,7 @@
         }
       }
     },
-    "/post/reset": {
+    "/verification/reset": {
       "post": {
         "tags": [
           "Verification"
@@ -221,7 +213,7 @@
         }
       }
     },
-    "/post/forgot": {
+    "/verification/forgot": {
       "post": {
         "tags": [
           "Verification"
@@ -261,7 +253,7 @@
         }
       }
     },
-    "/post/change": {
+    "/verification/change": {
       "post": {
         "tags": [
           "Verification"
@@ -303,14 +295,6 @@
     }
   },
   "definitions": {
-    "EmptyReq": {
-      "type": "object",
-      "discriminator": "emptyReq"
-    },
-    "EmptyRes": {
-      "type": "object",
-      "discriminator": "emptyRes"
-    },
     "BaseRes": {
       "type": "object",
       "discriminator": "baseRes",
@@ -323,33 +307,37 @@
         },
         "msg": {
           "type": "string"
+        },
+        "trace": {
+          "type": "string"
         }
       }
     },
-    "Configuration": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/BaseRes"
-        },
-        {
-          "type": "object"
-        }
-      ],
+    "AuthConfigurationBase": {
+      "type": "object",
+      "discriminator": "acBase",
       "properties": {
         "enablePhoneVerification": {
           "type": "boolean"
         }
       }
     },
-    "Login": {
+    "AuthConfiguration": {
       "allOf": [
         {
-          "$ref": "#/definitions/EmptyReq"
+          "$ref": "#/definitions/BaseRes"
+        },
+        {
+          "$ref": "#/definitions/AuthConfigurationBase"
         },
         {
           "type": "object"
         }
-      ],
+      ]
+    },
+    "Login": {
+      "type": "object",
+      "discriminator": "loginReq",
       "required": [
         "userId",
         "password"
@@ -364,14 +352,8 @@
       }
     },
     "Registration": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/EmptyReq"
-        },
-        {
-          "type": "object"
-        }
-      ],
+      "type": "object",
+      "discriminator": "regReq",
       "required": [
         "fname",
         "lname",
@@ -411,19 +393,9 @@
         }
       }
     },
-    "RegistrationRes": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/BaseRes"
-        },
-        {
-          "type": "object"
-        }
-      ],
-      "required": [
-        "config",
-        "weather"
-      ],
+    "RegistrationSuccess": {
+      "type": "object",
+      "discriminator": "regSuccess",
       "properties": {
         "pinToken": {
           "type": "string"
@@ -436,16 +408,22 @@
         }
       }
     },
-    "VerificationReq": {
+    "RegistrationRes": {
       "allOf": [
         {
-          "$ref": "#/definitions/EmptyReq"
+          "$ref": "#/definitions/BaseRes"
+        },
+        {
+          "$ref": "#/definitions/RegistrationSuccess"
         },
         {
           "type": "object"
         }
-      ],
+      ]
+    },
+    "VerificationReq": {
       "type": "object",
+      "discriminator": "verifiyReq",
       "required": [
         "pinToken",
         "pin"
@@ -460,14 +438,8 @@
       }
     },
     "PlatformUser": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/EmptyRes"
-        },
-        {
-          "type": "object"
-        }
-      ],
+      "type": "object",
+      "discriminator": "platUser",
       "properties": {
         "email": {
           "type": "string"
@@ -504,22 +476,16 @@
         }
       }
     },
-    "VerificationRes": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/BaseRes"
-        },
-        {
-          "type": "object"
-        }
-      ],
+    "VerificationSuccess": {
+      "type": "object",
+      "discriminator": "verifiyReq",
       "properties": {
         "authToken": {
           "type": "string"
         },
         "connCounter": {
           "type": "integer",
-          "format": "int32"
+          "format": "int64"
         },
         "user": {
           "$ref": "#/definitions/PlatformUser"
@@ -530,15 +496,22 @@
         }
       }
     },
-    "ResetPassword": {
+    "VerificationRes": {
       "allOf": [
         {
-          "$ref": "#/definitions/EmptyReq"
+          "$ref": "#/definitions/BaseRes"
+        },
+        {
+          "$ref": "#/definitions/VerificationSuccess"
         },
         {
           "type": "object"
         }
-      ],
+      ]
+    },
+    "ResetPassword": {
+      "type": "object",
+      "discriminator": "resetReq",
       "properties": {
         "userId": {
           "type": "string"
@@ -555,14 +528,8 @@
       }
     },
     "ForgotPassword": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/EmptyReq"
-        },
-        {
-          "type": "object"
-        }
-      ],
+      "type": "object",
+      "discriminator": "forgotReq",
       "properties": {
         "userId": {
           "type": "string"
@@ -575,15 +542,9 @@
         }
       }
     },
-    "ForgotPasswordRes": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/BaseRes"
-        },
-        {
-          "type": "object"
-        }
-      ],
+    "ForgotPasswordSuccess": {
+      "type": "object",
+      "discriminator": "forgotReq",
       "required": [
         "pinToken"
       ],
@@ -593,15 +554,22 @@
         }
       }
     },
-    "ChangePassword": {
+    "ForgotPasswordRes": {
       "allOf": [
         {
-          "$ref": "#/definitions/EmptyReq"
+          "$ref": "#/definitions/BaseRes"
+        },
+        {
+          "$ref": "#/definitions/ForgotPasswordSuccess"
         },
         {
           "type": "object"
         }
-      ],
+      ]
+    },
+    "ChangePassword": {
+      "type": "object",
+      "discriminator": "changeReq",
       "properties": {
         "userId": {
           "type": "string"
