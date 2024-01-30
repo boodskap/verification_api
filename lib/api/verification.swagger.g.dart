@@ -81,21 +81,6 @@ Map<String, dynamic> _$RegistrationToJson(Registration instance) =>
       'properties': instance.properties,
     };
 
-RegistrationSuccess _$RegistrationSuccessFromJson(Map<String, dynamic> json) =>
-    RegistrationSuccess(
-      pinToken: json['pinToken'] as String? ?? '',
-      authToken: json['authToken'] as String? ?? '',
-      delivery: json['delivery'] as Object,
-    );
-
-Map<String, dynamic> _$RegistrationSuccessToJson(
-        RegistrationSuccess instance) =>
-    <String, dynamic>{
-      'pinToken': instance.pinToken,
-      'authToken': instance.authToken,
-      'delivery': instance.delivery,
-    };
-
 RegistrationRes _$RegistrationResFromJson(Map<String, dynamic> json) =>
     RegistrationRes(
       ok: json['ok'] as bool,
@@ -157,23 +142,6 @@ Map<String, dynamic> _$PlatformUserToJson(PlatformUser instance) =>
       'roles': instance.roles,
     };
 
-VerificationSuccess _$VerificationSuccessFromJson(Map<String, dynamic> json) =>
-    VerificationSuccess(
-      authToken: json['authToken'] as String? ?? '',
-      connCounter: json['connCounter'] as int,
-      user: PlatformUser.fromJson(json['user'] as Map<String, dynamic>),
-      properties: json['properties'] as Object,
-    );
-
-Map<String, dynamic> _$VerificationSuccessToJson(
-        VerificationSuccess instance) =>
-    <String, dynamic>{
-      'authToken': instance.authToken,
-      'connCounter': instance.connCounter,
-      'user': instance.user.toJson(),
-      'properties': instance.properties,
-    };
-
 VerificationRes _$VerificationResFromJson(Map<String, dynamic> json) =>
     VerificationRes(
       ok: json['ok'] as bool,
@@ -224,18 +192,6 @@ Map<String, dynamic> _$ForgotPasswordToJson(ForgotPassword instance) =>
       'userId': instance.userId,
       'subject': instance.subject,
       'template': instance.template,
-    };
-
-ForgotPasswordSuccess _$ForgotPasswordSuccessFromJson(
-        Map<String, dynamic> json) =>
-    ForgotPasswordSuccess(
-      pinToken: json['pinToken'] as String? ?? '',
-    );
-
-Map<String, dynamic> _$ForgotPasswordSuccessToJson(
-        ForgotPasswordSuccess instance) =>
-    <String, dynamic>{
-      'pinToken': instance.pinToken,
     };
 
 ForgotPasswordRes _$ForgotPasswordResFromJson(Map<String, dynamic> json) =>

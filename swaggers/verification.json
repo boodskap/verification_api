@@ -297,7 +297,6 @@
   "definitions": {
     "BaseRes": {
       "type": "object",
-      "discriminator": "baseRes",
       "required": [
         "ok"
       ],
@@ -315,7 +314,6 @@
     },
     "AuthConfigurationBase": {
       "type": "object",
-      "discriminator": "acBase",
       "properties": {
         "enablePhoneVerification": {
           "type": "boolean"
@@ -337,7 +335,6 @@
     },
     "Login": {
       "type": "object",
-      "discriminator": "loginReq",
       "required": [
         "userId",
         "password"
@@ -353,7 +350,6 @@
     },
     "Registration": {
       "type": "object",
-      "discriminator": "regReq",
       "required": [
         "fname",
         "lname",
@@ -393,10 +389,21 @@
         }
       }
     },
-    "RegistrationSuccess": {
+    "RegistrationRes": {
       "type": "object",
-      "discriminator": "regSuccess",
+      "required": [
+        "ok"
+      ],
       "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "trace": {
+          "type": "string"
+        },
         "pinToken": {
           "type": "string"
         },
@@ -408,22 +415,8 @@
         }
       }
     },
-    "RegistrationRes": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/BaseRes"
-        },
-        {
-          "$ref": "#/definitions/RegistrationSuccess"
-        },
-        {
-          "type": "object"
-        }
-      ]
-    },
     "VerificationReq": {
       "type": "object",
-      "discriminator": "verifiyReq",
       "required": [
         "pinToken",
         "pin"
@@ -439,7 +432,6 @@
     },
     "PlatformUser": {
       "type": "object",
-      "discriminator": "platUser",
       "properties": {
         "email": {
           "type": "string"
@@ -476,10 +468,21 @@
         }
       }
     },
-    "VerificationSuccess": {
+    "VerificationRes": {
       "type": "object",
-      "discriminator": "verifiyReq",
+      "required": [
+        "ok"
+      ],
       "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "trace": {
+          "type": "string"
+        },
         "authToken": {
           "type": "string"
         },
@@ -496,22 +499,8 @@
         }
       }
     },
-    "VerificationRes": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/BaseRes"
-        },
-        {
-          "$ref": "#/definitions/VerificationSuccess"
-        },
-        {
-          "type": "object"
-        }
-      ]
-    },
     "ResetPassword": {
       "type": "object",
-      "discriminator": "resetReq",
       "properties": {
         "userId": {
           "type": "string"
@@ -529,7 +518,6 @@
     },
     "ForgotPassword": {
       "type": "object",
-      "discriminator": "forgotReq",
       "properties": {
         "userId": {
           "type": "string"
@@ -542,34 +530,28 @@
         }
       }
     },
-    "ForgotPasswordSuccess": {
+    "ForgotPasswordRes": {
       "type": "object",
-      "discriminator": "forgotReq",
       "required": [
-        "pinToken"
+        "ok"
       ],
       "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "trace": {
+          "type": "string"
+        },
         "pinToken": {
           "type": "string"
         }
       }
     },
-    "ForgotPasswordRes": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/BaseRes"
-        },
-        {
-          "$ref": "#/definitions/ForgotPasswordSuccess"
-        },
-        {
-          "type": "object"
-        }
-      ]
-    },
     "ChangePassword": {
       "type": "object",
-      "discriminator": "changeReq",
       "properties": {
         "userId": {
           "type": "string"
