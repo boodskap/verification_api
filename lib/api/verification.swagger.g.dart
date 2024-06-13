@@ -12,39 +12,66 @@ BaseRes _$BaseResFromJson(Map<String, dynamic> json) => BaseRes(
       trace: json['trace'] as String? ?? '',
     );
 
-Map<String, dynamic> _$BaseResToJson(BaseRes instance) => <String, dynamic>{
-      'ok': instance.ok,
-      'msg': instance.msg,
-      'trace': instance.trace,
-    };
+Map<String, dynamic> _$BaseResToJson(BaseRes instance) {
+  final val = <String, dynamic>{
+    'ok': instance.ok,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('msg', instance.msg);
+  writeNotNull('trace', instance.trace);
+  return val;
+}
 
 AuthConfigurationBase _$AuthConfigurationBaseFromJson(
         Map<String, dynamic> json) =>
     AuthConfigurationBase(
-      enablePhoneVerification: json['enablePhoneVerification'] as bool,
+      enablePhoneVerification: json['enablePhoneVerification'] as bool?,
     );
 
 Map<String, dynamic> _$AuthConfigurationBaseToJson(
-        AuthConfigurationBase instance) =>
-    <String, dynamic>{
-      'enablePhoneVerification': instance.enablePhoneVerification,
-    };
+    AuthConfigurationBase instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('enablePhoneVerification', instance.enablePhoneVerification);
+  return val;
+}
 
 AuthConfiguration _$AuthConfigurationFromJson(Map<String, dynamic> json) =>
     AuthConfiguration(
       ok: json['ok'] as bool,
       msg: json['msg'] as String? ?? '',
       trace: json['trace'] as String? ?? '',
-      enablePhoneVerification: json['enablePhoneVerification'] as bool,
+      enablePhoneVerification: json['enablePhoneVerification'] as bool?,
     );
 
-Map<String, dynamic> _$AuthConfigurationToJson(AuthConfiguration instance) =>
-    <String, dynamic>{
-      'ok': instance.ok,
-      'msg': instance.msg,
-      'trace': instance.trace,
-      'enablePhoneVerification': instance.enablePhoneVerification,
-    };
+Map<String, dynamic> _$AuthConfigurationToJson(AuthConfiguration instance) {
+  final val = <String, dynamic>{
+    'ok': instance.ok,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('msg', instance.msg);
+  writeNotNull('trace', instance.trace);
+  writeNotNull('enablePhoneVerification', instance.enablePhoneVerification);
+  return val;
+}
 
 Login _$LoginFromJson(Map<String, dynamic> json) => Login(
       userId: json['userId'] as String? ?? '',
@@ -66,20 +93,28 @@ Registration _$RegistrationFromJson(Map<String, dynamic> json) => Registration(
       template: json['template'] as String? ?? '',
       fname: json['fname'] as String? ?? '',
       lname: json['lname'] as String? ?? '',
-      properties: json['properties'] as Object,
+      properties: json['properties'],
     );
 
-Map<String, dynamic> _$RegistrationToJson(Registration instance) =>
-    <String, dynamic>{
-      'email': instance.email,
-      'phone': instance.phone,
-      'roles': instance.roles,
-      'subject': instance.subject,
-      'template': instance.template,
-      'fname': instance.fname,
-      'lname': instance.lname,
-      'properties': instance.properties,
-    };
+Map<String, dynamic> _$RegistrationToJson(Registration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('email', instance.email);
+  writeNotNull('phone', instance.phone);
+  val['roles'] = instance.roles;
+  val['subject'] = instance.subject;
+  val['template'] = instance.template;
+  val['fname'] = instance.fname;
+  val['lname'] = instance.lname;
+  writeNotNull('properties', instance.properties);
+  return val;
+}
 
 RegistrationRes _$RegistrationResFromJson(Map<String, dynamic> json) =>
     RegistrationRes(
@@ -88,18 +123,27 @@ RegistrationRes _$RegistrationResFromJson(Map<String, dynamic> json) =>
       trace: json['trace'] as String? ?? '',
       pinToken: json['pinToken'] as String? ?? '',
       authToken: json['authToken'] as String? ?? '',
-      delivery: json['delivery'] as Object,
+      delivery: json['delivery'],
     );
 
-Map<String, dynamic> _$RegistrationResToJson(RegistrationRes instance) =>
-    <String, dynamic>{
-      'ok': instance.ok,
-      'msg': instance.msg,
-      'trace': instance.trace,
-      'pinToken': instance.pinToken,
-      'authToken': instance.authToken,
-      'delivery': instance.delivery,
-    };
+Map<String, dynamic> _$RegistrationResToJson(RegistrationRes instance) {
+  final val = <String, dynamic>{
+    'ok': instance.ok,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('msg', instance.msg);
+  writeNotNull('trace', instance.trace);
+  writeNotNull('pinToken', instance.pinToken);
+  writeNotNull('authToken', instance.authToken);
+  writeNotNull('delivery', instance.delivery);
+  return val;
+}
 
 VerificationReq _$VerificationReqFromJson(Map<String, dynamic> json) =>
     VerificationReq(
@@ -128,19 +172,52 @@ PlatformUser _$PlatformUserFromJson(Map<String, dynamic> json) => PlatformUser(
               [],
     );
 
-Map<String, dynamic> _$PlatformUserToJson(PlatformUser instance) =>
-    <String, dynamic>{
-      'email': instance.email,
-      'domainKey': instance.domainKey,
-      'firstName': instance.firstName,
-      'lastName': instance.lastName,
-      'country': instance.country,
-      'state': instance.state,
-      'city': instance.city,
-      'address': instance.address,
-      'zipcode': instance.zipcode,
-      'roles': instance.roles,
-    };
+Map<String, dynamic> _$PlatformUserToJson(PlatformUser instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('email', instance.email);
+  writeNotNull('domainKey', instance.domainKey);
+  writeNotNull('firstName', instance.firstName);
+  writeNotNull('lastName', instance.lastName);
+  writeNotNull('country', instance.country);
+  writeNotNull('state', instance.state);
+  writeNotNull('city', instance.city);
+  writeNotNull('address', instance.address);
+  writeNotNull('zipcode', instance.zipcode);
+  writeNotNull('roles', instance.roles);
+  return val;
+}
+
+PlatformSession _$PlatformSessionFromJson(Map<String, dynamic> json) =>
+    PlatformSession(
+      authToken: json['authToken'] as String? ?? '',
+      connCounter: (json['connCounter'] as num).toInt(),
+      orgId: json['orgId'] as String? ?? '',
+      user: PlatformUser.fromJson(json['user'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$PlatformSessionToJson(PlatformSession instance) {
+  final val = <String, dynamic>{
+    'authToken': instance.authToken,
+    'connCounter': instance.connCounter,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('orgId', instance.orgId);
+  val['user'] = instance.user.toJson();
+  return val;
+}
 
 VerificationRes _$VerificationResFromJson(Map<String, dynamic> json) =>
     VerificationRes(
@@ -148,23 +225,68 @@ VerificationRes _$VerificationResFromJson(Map<String, dynamic> json) =>
       msg: json['msg'] as String? ?? '',
       trace: json['trace'] as String? ?? '',
       authToken: json['authToken'] as String? ?? '',
-      connCounter: json['connCounter'] as int,
-      user: PlatformUser.fromJson(json['user'] as Map<String, dynamic>),
-      properties: json['properties'] as Object,
-      code: json['code'] as int,
+      connCounter: (json['connCounter'] as num?)?.toInt(),
+      user: json['user'] == null
+          ? null
+          : PlatformUser.fromJson(json['user'] as Map<String, dynamic>),
+      properties: json['properties'],
+      code: (json['code'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$VerificationResToJson(VerificationRes instance) =>
-    <String, dynamic>{
-      'ok': instance.ok,
-      'msg': instance.msg,
-      'trace': instance.trace,
-      'authToken': instance.authToken,
-      'connCounter': instance.connCounter,
-      'user': instance.user.toJson(),
-      'properties': instance.properties,
-      'code': instance.code,
-    };
+Map<String, dynamic> _$VerificationResToJson(VerificationRes instance) {
+  final val = <String, dynamic>{
+    'ok': instance.ok,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('msg', instance.msg);
+  writeNotNull('trace', instance.trace);
+  writeNotNull('authToken', instance.authToken);
+  writeNotNull('connCounter', instance.connCounter);
+  writeNotNull('user', instance.user?.toJson());
+  writeNotNull('properties', instance.properties);
+  writeNotNull('code', instance.code);
+  return val;
+}
+
+MultiVerificationRes _$MultiVerificationResFromJson(
+        Map<String, dynamic> json) =>
+    MultiVerificationRes(
+      ok: json['ok'] as bool,
+      msg: json['msg'] as String? ?? '',
+      trace: json['trace'] as String? ?? '',
+      sessions: (json['sessions'] as List<dynamic>?)
+              ?.map((e) => PlatformSession.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      properties: json['properties'],
+      code: (json['code'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$MultiVerificationResToJson(
+    MultiVerificationRes instance) {
+  final val = <String, dynamic>{
+    'ok': instance.ok,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('msg', instance.msg);
+  writeNotNull('trace', instance.trace);
+  writeNotNull('sessions', instance.sessions?.map((e) => e.toJson()).toList());
+  writeNotNull('properties', instance.properties);
+  writeNotNull('code', instance.code);
+  return val;
+}
 
 ResetPassword _$ResetPasswordFromJson(Map<String, dynamic> json) =>
     ResetPassword(
@@ -174,13 +296,21 @@ ResetPassword _$ResetPasswordFromJson(Map<String, dynamic> json) =>
       password: json['password'] as String? ?? '',
     );
 
-Map<String, dynamic> _$ResetPasswordToJson(ResetPassword instance) =>
-    <String, dynamic>{
-      'userId': instance.userId,
-      'pinToken': instance.pinToken,
-      'pin': instance.pin,
-      'password': instance.password,
-    };
+Map<String, dynamic> _$ResetPasswordToJson(ResetPassword instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('userId', instance.userId);
+  writeNotNull('pinToken', instance.pinToken);
+  writeNotNull('pin', instance.pin);
+  writeNotNull('password', instance.password);
+  return val;
+}
 
 ForgotPassword _$ForgotPasswordFromJson(Map<String, dynamic> json) =>
     ForgotPassword(
@@ -189,12 +319,20 @@ ForgotPassword _$ForgotPasswordFromJson(Map<String, dynamic> json) =>
       template: json['template'] as String? ?? '',
     );
 
-Map<String, dynamic> _$ForgotPasswordToJson(ForgotPassword instance) =>
-    <String, dynamic>{
-      'userId': instance.userId,
-      'subject': instance.subject,
-      'template': instance.template,
-    };
+Map<String, dynamic> _$ForgotPasswordToJson(ForgotPassword instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('userId', instance.userId);
+  writeNotNull('subject', instance.subject);
+  writeNotNull('template', instance.template);
+  return val;
+}
 
 ForgotPasswordRes _$ForgotPasswordResFromJson(Map<String, dynamic> json) =>
     ForgotPasswordRes(
@@ -204,13 +342,22 @@ ForgotPasswordRes _$ForgotPasswordResFromJson(Map<String, dynamic> json) =>
       pinToken: json['pinToken'] as String? ?? '',
     );
 
-Map<String, dynamic> _$ForgotPasswordResToJson(ForgotPasswordRes instance) =>
-    <String, dynamic>{
-      'ok': instance.ok,
-      'msg': instance.msg,
-      'trace': instance.trace,
-      'pinToken': instance.pinToken,
-    };
+Map<String, dynamic> _$ForgotPasswordResToJson(ForgotPasswordRes instance) {
+  final val = <String, dynamic>{
+    'ok': instance.ok,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('msg', instance.msg);
+  writeNotNull('trace', instance.trace);
+  writeNotNull('pinToken', instance.pinToken);
+  return val;
+}
 
 ChangePassword _$ChangePasswordFromJson(Map<String, dynamic> json) =>
     ChangePassword(
@@ -219,9 +366,17 @@ ChangePassword _$ChangePasswordFromJson(Map<String, dynamic> json) =>
       newPassword: json['newPassword'] as String? ?? '',
     );
 
-Map<String, dynamic> _$ChangePasswordToJson(ChangePassword instance) =>
-    <String, dynamic>{
-      'userId': instance.userId,
-      'oldPassword': instance.oldPassword,
-      'newPassword': instance.newPassword,
-    };
+Map<String, dynamic> _$ChangePasswordToJson(ChangePassword instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('userId', instance.userId);
+  writeNotNull('oldPassword', instance.oldPassword);
+  writeNotNull('newPassword', instance.newPassword);
+  return val;
+}
