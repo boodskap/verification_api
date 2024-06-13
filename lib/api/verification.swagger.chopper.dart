@@ -6,6 +6,7 @@ part of 'verification.swagger.dart';
 // ChopperGenerator
 // **************************************************************************
 
+// coverage:ignore-file
 // ignore_for_file: type=lint
 final class _$Verification extends Verification {
   _$Verification([ChopperClient? client]) {
@@ -14,7 +15,7 @@ final class _$Verification extends Verification {
   }
 
   @override
-  final definitionType = Verification;
+  final Type definitionType = Verification;
 
   @override
   Future<Response<AuthConfiguration>> _getOrSetConfiguration({String? dkey}) {
@@ -34,7 +35,7 @@ final class _$Verification extends Verification {
   @override
   Future<Response<RegistrationRes>> _registerUser({
     String? dkey,
-    required Object? body,
+    required Registration? body,
   }) {
     final Uri $url = Uri.parse('/verification/register');
     final Map<String, String> $headers = {
@@ -54,7 +55,7 @@ final class _$Verification extends Verification {
   @override
   Future<Response<VerificationRes>> _verifyPin({
     String? dkey,
-    required Object? body,
+    required VerificationReq? body,
   }) {
     final Uri $url = Uri.parse('/verification/verify');
     final Map<String, String> $headers = {
@@ -74,7 +75,7 @@ final class _$Verification extends Verification {
   @override
   Future<Response<VerificationRes>> _loginUser({
     String? dkey,
-    required Object? body,
+    required Login? body,
   }) {
     final Uri $url = Uri.parse('/verification/login');
     final Map<String, String> $headers = {
@@ -92,9 +93,29 @@ final class _$Verification extends Verification {
   }
 
   @override
+  Future<Response<MultiVerificationRes>> _loginUserSession({
+    String? twinUser,
+    required Login? body,
+  }) {
+    final Uri $url = Uri.parse('/verification/user/login');
+    final Map<String, String> $headers = {
+      if (twinUser != null) 'twinUser': twinUser,
+    };
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      headers: $headers,
+    );
+    return client.send<MultiVerificationRes, MultiVerificationRes>($request);
+  }
+
+  @override
   Future<Response<BaseRes>> _resetPassword({
     String? dkey,
-    required Object? body,
+    required ResetPassword? body,
   }) {
     final Uri $url = Uri.parse('/verification/reset');
     final Map<String, String> $headers = {
@@ -114,7 +135,7 @@ final class _$Verification extends Verification {
   @override
   Future<Response<ForgotPasswordRes>> _forgotPassword({
     String? dkey,
-    required Object? body,
+    required ForgotPassword? body,
   }) {
     final Uri $url = Uri.parse('/verification/forgot');
     final Map<String, String> $headers = {
@@ -134,7 +155,7 @@ final class _$Verification extends Verification {
   @override
   Future<Response<BaseRes>> _changePassword({
     String? dkey,
-    required Object? body,
+    required ChangePassword? body,
   }) {
     final Uri $url = Uri.parse('/verification/change');
     final Map<String, String> $headers = {

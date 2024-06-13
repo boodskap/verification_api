@@ -4,7 +4,7 @@
     "application/json"
   ],
   "info": {
-    "version": "1.1.1",
+    "version": "1.1.2",
     "title": "NoCode Verification API",
     "description": "NoCode Verification API",
     "termsOfService": "https:/boodskap.io/terms-conditions",
@@ -15,7 +15,7 @@
       "name": "MIT"
     }
   },
-  "host": "auth.boodskap.io",
+  "host": "rest.boodskap.io",
   "basePath": "/rest/nocode",
   "schemes": [
     "https"
@@ -168,6 +168,47 @@
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/VerificationRes"
+            }
+          }
+        }
+      }
+    },
+    "/verification/user/login": {
+      "post": {
+        "tags": [
+          "Verification"
+        ],
+        "summary": "Do Login",
+        "description": "Login a user into the platform",
+        "operationId": "loginUserSession",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "twinUser",
+            "in": "header",
+            "required": true,
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/MultiVerificationRes"
             }
           }
         }
@@ -468,6 +509,29 @@
         }
       }
     },
+    "PlatformSession": {
+      "type": "object",
+      "required": [
+        "authToken",
+        "connCounter",
+        "user"
+      ],
+      "properties": {
+        "authToken": {
+          "type": "string"
+        },
+        "connCounter": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "orgId": {
+          "type": "string"
+        },
+        "user": {
+          "$ref": "#/definitions/PlatformUser"
+        }
+      }
+    },
     "VerificationRes": {
       "type": "object",
       "required": [
@@ -492,6 +556,37 @@
         },
         "user": {
           "$ref": "#/definitions/PlatformUser"
+        },
+        "properties": {
+          "type": "object",
+          "default": {}
+        },
+        "code": {
+          "type": "integer",
+          "description": "404: User not found"
+        }
+      }
+    },
+    "MultiVerificationRes": {
+      "type": "object",
+      "required": [
+        "ok"
+      ],
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "trace": {
+          "type": "string"
+        },
+        "sessions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PlatformSession"
+          }
         },
         "properties": {
           "type": "object",
