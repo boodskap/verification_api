@@ -113,7 +113,7 @@ final class _$Verification extends Verification {
   }
 
   @override
-  Future<Response<BaseRes>> _resetPassword({
+  Future<Response<VerificationRes>> _resetPassword({
     String? dkey,
     required ResetPassword? body,
   }) {
@@ -129,7 +129,7 @@ final class _$Verification extends Verification {
       body: $body,
       headers: $headers,
     );
-    return client.send<BaseRes, BaseRes>($request);
+    return client.send<VerificationRes, VerificationRes>($request);
   }
 
   @override
