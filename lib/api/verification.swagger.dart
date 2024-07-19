@@ -41,7 +41,7 @@ abstract class Verification extends ChopperService {
         client: httpClient,
         authenticator: authenticator,
         errorConverter: errorConverter,
-        baseUrl: baseUrl ?? Uri.parse('http://rest.boodskap.io/rest/nocode'));
+        baseUrl: baseUrl ?? Uri.parse('http://twinned.digital/rest/nocode'));
     return _$Verification(newClient);
   }
 
@@ -158,13 +158,14 @@ abstract class Verification extends ChopperService {
   ///Reset password
   ///@param dkey
   ///@param body
-  Future<chopper.Response<BaseRes>> resetPassword({
+  Future<chopper.Response<VerificationRes>> resetPassword({
     String? dkey,
     required ResetPassword? body,
   }) {
     generatedMapping.putIfAbsent(
         ResetPassword, () => ResetPassword.fromJsonFactory);
-    generatedMapping.putIfAbsent(BaseRes, () => BaseRes.fromJsonFactory);
+    generatedMapping.putIfAbsent(
+        VerificationRes, () => VerificationRes.fromJsonFactory);
 
     return _resetPassword(dkey: dkey?.toString(), body: body);
   }
@@ -173,7 +174,7 @@ abstract class Verification extends ChopperService {
   ///@param dkey
   ///@param body
   @Post(path: '/verification/reset')
-  Future<chopper.Response<BaseRes>> _resetPassword({
+  Future<chopper.Response<VerificationRes>> _resetPassword({
     @Header('dkey') String? dkey,
     @Body() required ResetPassword? body,
   });

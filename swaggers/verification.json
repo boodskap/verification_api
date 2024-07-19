@@ -4,9 +4,9 @@
     "application/json"
   ],
   "info": {
-    "version": "1.1.2",
-    "title": "NoCode Verification API",
-    "description": "NoCode Verification API",
+    "version": "1.1.3",
+    "title": "Boodskap Verification API",
+    "description": "Boodskap Verification API",
     "termsOfService": "https:/boodskap.io/terms-conditions",
     "contact": {
       "name": "Boodskap Team"
@@ -15,7 +15,7 @@
       "name": "MIT"
     }
   },
-  "host": "rest.boodskap.io",
+  "host": "twinned.digital",
   "basePath": "/rest/nocode",
   "schemes": [
     "https"
@@ -248,7 +248,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/BaseRes"
+              "$ref": "#/definitions/VerificationRes"
             }
           }
         }
